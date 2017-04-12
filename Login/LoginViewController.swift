@@ -15,21 +15,86 @@ class LoginViewController: UIViewController {
         static let backgroundColor: UIColor = UIColor(hue: 0.5389, saturation: 1, brightness: 0.92, alpha: 1.0)
         static let invalidEmailTitle = "Invalid username or password"
         static let invalidEmailMessage = "Please try again"
+        static let titleSize: CGFloat = 36
+        static let textSize: CGFloat = 16
     }
 
     // TODO: instantiate the views needed for your project
+    var titleView: UILabel = {
+        let label = UILabel()
+        label.text = "Login View Controller"
+        label.font = UIFont(name: "Avenir", size: Constants.titleSize)
+        label.textAlignment = .center
+        label.textColor = UIColor.white
+        
+        return label;
+    }()
+    
+    var loginBox: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.white
+        
+        
+        return view
+    }()
+    
+    var usernameField: UITextField = {
+        let field = UITextField()
+        field.font = UIFont(name: "Avenir", size: Constants.textSize)
+        field.textColor = UIColor.black
+        field.placeholder = "berkeley.edu account"
+        return field
+    }()
+    
+    var passwordField: UITextField = {
+        let field = UITextField()
+        field.font = UIFont(name: "Avenir", size: Constants.textSize)
+        field.textColor = UIColor.black
+        field.placeholder = "password"
+        field.isSecureTextEntry = true
+        return field
+    }()
+    
+    var loginBtn: UIButton = {
+        let btn = UIButton()
+        btn.setTitle("Login", for: .normal)
+        btn.backgroundColor = Constants.backgroundColor
+        btn.setTitleColor(UIColor.white, for: .normal)
+        return btn
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = Constants.backgroundColor
         
         // TODO: Add your views either as subviews of `view` or subviews of each other using `addSubview`
+        view.addSubview(titleView)
+        view.addSubview(loginBox)
+//        view.addSubview(usernameField)
+//        view.addSubview(passwordField)
+//        view.addSubview(loginBtn)
+        loginBox.addSubview(loginBtn)
+        loginBox.addSubview(usernameField)
+        loginBox.addSubview(passwordField)
         
         // TODO: layout your views using frames or AutoLayout
+        titleView.center = view.center
+        titleView.frame = CGRect(x: 0, y: 50, width: view.frame.width, height: CGFloat(40))
+        loginBox.center = view.center
+        loginBox.frame = CGRect(x: 25, y: 150, width: view.frame.width - 50, height: CGFloat(200))
+        usernameField.center = loginBox.center
+        usernameField.frame = CGRect(x: 35, y: 20, width: loginBox.frame.width, height: CGFloat(40))
+        passwordField.center = loginBox.center
+        passwordField.frame = CGRect(x: 35, y: 60, width: loginBox.frame.width, height: CGFloat(40))
+        loginBtn.center = loginBox.center
+        loginBtn.frame = CGRect(x: 35, y: 120, width: loginBox.frame.width - 80, height: CGFloat(50))
+        loginBtn.addTarget(self, action: #selector(loginPressed), for: .touchUpInside)
     }
     
     // TODO: create an IBAction for your login button
-    
+    @IBAction func loginPressed(sender: UIButton) {
+        authenticateUser(username: usernameField.text, password: passwordField.text)
+    }
     
     
     
